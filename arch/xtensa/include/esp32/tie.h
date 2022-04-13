@@ -39,7 +39,7 @@
  * Pre-processor Definitions
  ****************************************************************************/
 
-#define XCHAL_CP_NUM               1       /* number of coprocessors */
+#define XCHAL_CP_NUM               0       /* number of coprocessors */
 #define XCHAL_CP_MAX               1       /* max CP ID + 1 (0 if none) */
 #define XCHAL_CP_MASK              0x01    /* bitmask of all CPs by ID */
 #define XCHAL_CP_PORT_MASK         0x00    /* bitmask of only port CPs */

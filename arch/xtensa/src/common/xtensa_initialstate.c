@@ -53,6 +53,15 @@
  *   so that execution will begin at tcb->start on the next context switch.
  *
  ****************************************************************************/
+static inline void xtensa_set_cpenable(uint32_t cpenable)
+{
+  __asm__ __volatile__
+  (
+    "\twsr %0, CPENABLE\n"
+    "\trsync\n"
+    : : "r"(cpenable)
+  );
+}
 
 void up_initial_state(struct tcb_s *tcb)
 {
@@ -111,4 +120,6 @@ void up_initial_state(struct tcb_s *tcb)
 #endif
   xcp->cpstate.cpstored = 0;  /* No co-processors haved state saved */
 #endif
+
+xtensa_set_cpenable(0x0001);
 }

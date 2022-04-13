@@ -596,7 +596,10 @@ static uint32_t esp32_spi_setfrequency(struct spi_dev_s *dev,
 
       for (n = 2; n <= 64; n++)
         {
-          pre = ((APB_CLK_FREQ / n) + (frequency / 2)) / frequency;
+          if(frequency == 0)
+            pre = 0;
+          else
+            pre = ((APB_CLK_FREQ / n) + (frequency / 2)) / frequency;
 
           if (pre <= 0)
             {
