@@ -61,7 +61,7 @@
  *
  ****************************************************************************/
 
-bool nxsched_add_prioritized(FAR struct tcb_s *tcb, DSEG dq_queue_t *list)
+bool __attribute__ ((section(".iram1"))) nxsched_add_prioritized(FAR struct tcb_s *tcb, DSEG dq_queue_t *list)
 {
   FAR struct tcb_s *next;
   FAR struct tcb_s *prev;

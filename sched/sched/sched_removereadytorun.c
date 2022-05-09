@@ -59,7 +59,7 @@
  ****************************************************************************/
 
 #ifndef CONFIG_SMP
-bool nxsched_remove_readytorun(FAR struct tcb_s *rtcb)
+bool __attribute__ ((section(".iram1"))) nxsched_remove_readytorun(FAR struct tcb_s *rtcb)
 {
   bool doswitch = false;
 
@@ -118,7 +118,7 @@ bool nxsched_remove_readytorun(FAR struct tcb_s *rtcb)
  ****************************************************************************/
 
 #ifdef CONFIG_SMP
-bool nxsched_remove_readytorun(FAR struct tcb_s *rtcb)
+bool __attribute__ ((section(".iram1"))) nxsched_remove_readytorun(FAR struct tcb_s *rtcb)
 {
   FAR dq_queue_t *tasklist;
   bool doswitch = false;

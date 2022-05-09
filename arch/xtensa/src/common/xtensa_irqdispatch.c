@@ -42,7 +42,7 @@
  * Public Functions
  ****************************************************************************/
 
-uint32_t *xtensa_irq_dispatch(int irq, uint32_t *regs)
+uint32_t * __attribute__ ((section(".iram1"))) xtensa_irq_dispatch(int irq, uint32_t *regs)
 {
 #ifdef CONFIG_SUPPRESS_INTERRUPTS
   board_autoled_on(LED_INIRQ);

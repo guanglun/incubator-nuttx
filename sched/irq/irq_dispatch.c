@@ -129,7 +129,7 @@
  *
  ****************************************************************************/
 
-void irq_dispatch(int irq, FAR void *context)
+void  __attribute__ ((section(".iram1")))  irq_dispatch(int irq, FAR void *context)
 {
   xcpt_t vector = irq_unexpected_isr;
   FAR void *arg = NULL;

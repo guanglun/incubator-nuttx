@@ -60,7 +60,7 @@
  *
  ****************************************************************************/
 
-void up_block_task(struct tcb_s *tcb, tstate_t task_state)
+void __attribute__ ((section(".iram1"))) up_block_task(struct tcb_s *tcb, tstate_t task_state)
 {
   struct tcb_s *rtcb = this_task();
   bool switch_needed;

@@ -57,7 +57,7 @@
  *
  ****************************************************************************/
 
-void up_unblock_task(struct tcb_s *tcb)
+void __attribute__ ((section(".iram1"))) up_unblock_task(struct tcb_s *tcb)
 {
   struct tcb_s *rtcb = this_task();
 

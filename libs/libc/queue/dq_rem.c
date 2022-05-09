@@ -36,7 +36,7 @@
  *
  ****************************************************************************/
 
-void dq_rem(FAR dq_entry_t *node, dq_queue_t *queue)
+void __attribute__ ((section(".iram1"))) dq_rem(FAR dq_entry_t *node, dq_queue_t *queue)
 {
   FAR dq_entry_t *prev = node->blink;
   FAR dq_entry_t *next = node->flink;

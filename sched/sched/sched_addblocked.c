@@ -53,7 +53,7 @@
  *
  ****************************************************************************/
 
-void nxsched_add_blocked(FAR struct tcb_s *btcb, tstate_t task_state)
+void __attribute__ ((section(".iram1"))) nxsched_add_blocked(FAR struct tcb_s *btcb, tstate_t task_state)
 {
   FAR dq_queue_t *tasklist;
 

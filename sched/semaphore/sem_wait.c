@@ -68,7 +68,7 @@
  *
  ****************************************************************************/
 
-int nxsem_wait(FAR sem_t *sem)
+int __attribute__ ((section(".iram1"))) nxsem_wait(FAR sem_t *sem)
 {
   FAR struct tcb_s *rtcb = this_task();
   irqstate_t flags;
@@ -147,7 +147,7 @@ int nxsem_wait(FAR sem_t *sem)
           rtcb->errcode = OK;
 
           /* Add the TCB to the prioritized semaphore wait queue, after
-           * checking this is not the idle task - descheduling that
+           * checking this is not the idle task - deschedulin g that
            * isn't going to end well.
            */
 
@@ -249,7 +249,7 @@ int nxsem_wait_uninterruptible(FAR sem_t *sem)
  *
  ****************************************************************************/
 
-int sem_wait(FAR sem_t *sem)
+int __attribute__ ((section(".iram1"))) sem_wait(FAR sem_t *sem)
 {
   int errcode;
   int ret;

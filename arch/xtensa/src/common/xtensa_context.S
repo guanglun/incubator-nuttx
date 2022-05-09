@@ -69,12 +69,13 @@
 #include "syscall.h"
 #include "xtensa_swi.h"
 #include "xtensa_asm_utils.h"
+#include "chip.h"
 
 /****************************************************************************
  * Public Functions
  ****************************************************************************/
 
-	.text
+	.section HANDLER_SECTION, "ax"
 
 /****************************************************************************
  * Name: _xtensa_context_save

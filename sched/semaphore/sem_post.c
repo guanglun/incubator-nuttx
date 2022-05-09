@@ -67,7 +67,7 @@
  *
  ****************************************************************************/
 
-int nxsem_post(FAR sem_t *sem)
+int __attribute__ ((section(".iram1"))) nxsem_post(FAR sem_t *sem)
 {
   FAR struct tcb_s *stcb = NULL;
   irqstate_t flags;
@@ -217,7 +217,7 @@ int nxsem_post(FAR sem_t *sem)
  *
  ****************************************************************************/
 
-int sem_post(FAR sem_t *sem)
+int __attribute__ ((section(".iram1"))) sem_post(FAR sem_t *sem)
 {
   int ret;
 
