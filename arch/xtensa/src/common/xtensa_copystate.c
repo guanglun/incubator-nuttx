@@ -39,7 +39,7 @@
 
 /* A little faster than most memcpy's */
 
-void xtensa_copystate(uint32_t *dest, uint32_t *src)
+void __attribute__ ((section(".iram1"))) xtensa_copystate(uint32_t *dest, uint32_t *src)
 {
   int i;
 

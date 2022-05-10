@@ -55,7 +55,7 @@
  *
  ****************************************************************************/
 
-void nxsched_resume_scheduler(FAR struct tcb_s *tcb)
+void __attribute__ ((section(".iram1"))) nxsched_resume_scheduler(FAR struct tcb_s *tcb)
 {
 #ifdef CONFIG_SCHED_SPORADIC
   if ((tcb->flags & TCB_FLAG_POLICY_MASK) == TCB_FLAG_SCHED_SPORADIC)

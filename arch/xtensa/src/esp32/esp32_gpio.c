@@ -345,7 +345,7 @@ int esp32_configgpio(int pin, gpio_pinattr_t attr)
  *
  ****************************************************************************/
 
-void esp32_gpiowrite(int pin, bool value)
+void __attribute__ ((section(".iram1"))) esp32_gpiowrite(int pin, bool value)
 {
   DEBUGASSERT(pin >= 0 && pin <= ESP32_NGPIOS);
 
