@@ -199,7 +199,7 @@ struct xcptcontext
 
 /* Return the current value of the PS register */
 
-static inline uint32_t xtensa_getps(void)
+static inline uint32_t __attribute__ ((section(".iram1"))) xtensa_getps(void)
 {
   uint32_t ps;
 
@@ -213,7 +213,7 @@ static inline uint32_t xtensa_getps(void)
 
 /* Set the value of the PS register */
 
-static inline void xtensa_setps(uint32_t ps)
+static inline void __attribute__ ((section(".iram1"))) xtensa_setps(uint32_t ps)
 {
   __asm__ __volatile__
   (
@@ -227,7 +227,7 @@ static inline void xtensa_setps(uint32_t ps)
 
 /* Restore the value of the PS register */
 
-static inline void up_irq_restore(uint32_t ps)
+static inline void __attribute__ ((section(".iram1"))) up_irq_restore(uint32_t ps)
 {
   __asm__ __volatile__
   (
@@ -241,7 +241,7 @@ static inline void up_irq_restore(uint32_t ps)
 
 /* Disable interrupts and return the previous value of the PS register */
 
-static inline uint32_t up_irq_save(void)
+static inline uint32_t __attribute__ ((section(".iram1"))) up_irq_save(void)
 {
   uint32_t ps;
 
@@ -264,7 +264,7 @@ static inline uint32_t up_irq_save(void)
 
 /* Enable interrupts at all levels */
 
-static inline void up_irq_enable(void)
+static inline void __attribute__ ((section(".iram1"))) up_irq_enable(void)
 {
 #ifdef __XTENSA_CALL0_ABI__
   xtensa_setps(PS_INTLEVEL(0) | PS_UM);
@@ -275,7 +275,7 @@ static inline void up_irq_enable(void)
 
 /* Disable low- and medium- priority interrupts */
 
-static inline void up_irq_disable(void)
+static inline void __attribute__ ((section(".iram1"))) up_irq_disable(void)
 {
 #ifdef __XTENSA_CALL0_ABI__
   xtensa_setps(PS_INTLEVEL(XCHAL_EXCM_LEVEL) | PS_UM);
