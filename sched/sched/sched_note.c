@@ -466,6 +466,9 @@ static void note_spincommon(FAR struct tcb_s *tcb,
 
 void sched_note_start(FAR struct tcb_s *tcb)
 {
+#ifdef __PX4_NUTTX
+	px4_sched_note_start(tcb);
+#endif
   struct note_startalloc_s note;
   unsigned int length;
 #if CONFIG_TASK_NAME_SIZE > 0
@@ -501,6 +504,9 @@ void sched_note_start(FAR struct tcb_s *tcb)
 
 void sched_note_stop(FAR struct tcb_s *tcb)
 {
+#ifdef __PX4_NUTTX
+	px4_sched_note_stop(tcb);
+#endif    
   struct note_stop_s note;
 
   if (!note_isenabled())
@@ -520,6 +526,9 @@ void sched_note_stop(FAR struct tcb_s *tcb)
 #ifdef CONFIG_SCHED_INSTRUMENTATION_SWITCH
 void sched_note_suspend(FAR struct tcb_s *tcb)
 {
+#ifdef __PX4_NUTTX
+	px4_sched_note_suspend(tcb);
+#endif
   struct note_suspend_s note;
 
   if (!note_isenabled_switch())
@@ -540,6 +549,9 @@ void sched_note_suspend(FAR struct tcb_s *tcb)
 
 void sched_note_resume(FAR struct tcb_s *tcb)
 {
+#ifdef __PX4_NUTTX
+	px4_sched_note_resume(tcb);
+#endif    
   struct note_resume_s note;
 
   if (!note_isenabled_switch())
