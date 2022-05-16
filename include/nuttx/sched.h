@@ -1100,12 +1100,12 @@ int group_exitinfo(pid_t pid, FAR struct binary_s *bininfo);
  *
  ****************************************************************************/
 
-#if CONFIG_RR_INTERVAL > 0 || defined(CONFIG_SCHED_RESUMESCHEDULER)
-void nxsched_resume_scheduler(FAR struct tcb_s *tcb);
-#else
-#  define nxsched_resume_scheduler(tcb)
-#endif
-
+// #if CONFIG_RR_INTERVAL > 0 || defined(CONFIG_SCHED_RESUMESCHEDULER)
+// void nxsched_resume_scheduler(FAR struct tcb_s *tcb);
+// #else
+// #  define nxsched_resume_scheduler(tcb)
+// #endif
+#define nxsched_resume_scheduler(tcb) px4_sched_note_resume(tcb)
 /****************************************************************************
  * Name: nxsched_suspend_scheduler
  *
@@ -1123,12 +1123,12 @@ void nxsched_resume_scheduler(FAR struct tcb_s *tcb);
  *
  ****************************************************************************/
 
-#ifdef CONFIG_SCHED_SUSPENDSCHEDULER
-void nxsched_suspend_scheduler(FAR struct tcb_s *tcb);
-#else
-#  define nxsched_suspend_scheduler(tcb)
-#endif
-
+// #ifdef CONFIG_SCHED_SUSPENDSCHEDULER
+// void nxsched_suspend_scheduler(FAR struct tcb_s *tcb);
+// #else
+// #  define nxsched_suspend_scheduler(tcb)
+// #endif
+#define nxsched_suspend_scheduler(tcb) px4_sched_note_suspend(tcb)
 /****************************************************************************
  * Name: nxsched_get_param
  *
