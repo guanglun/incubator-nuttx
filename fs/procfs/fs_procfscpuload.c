@@ -201,7 +201,7 @@ static ssize_t cpuload_read(FAR struct file *filep, FAR char *buffer,
 
   if (filep->f_pos == 0)
     {
-      struct cpuload_s cpuload;
+      struct nx_cpuload_s cpuload;
       uint32_t intpart;
       uint32_t fracpart;
 

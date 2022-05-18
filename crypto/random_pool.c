@@ -215,7 +215,7 @@ static void addentropy(FAR const uint32_t *buf, size_t n, bool inc_new)
 static void getentropy(FAR blake2s_state *S)
 {
 #ifdef CONFIG_SCHED_CPULOAD
-  struct cpuload_s load;
+  struct nx_cpuload_s load;
 #endif
   uint32_t tmp;
 

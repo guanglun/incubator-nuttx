@@ -205,7 +205,7 @@ void weak_function nxsched_process_cpuload(void)
  *
  ****************************************************************************/
 
-int clock_cpuload(int pid, FAR struct cpuload_s *cpuload)
+int clock_cpuload(int pid, FAR struct nx_cpuload_s *cpuload)
 {
   irqstate_t flags;
   int hash_index;
