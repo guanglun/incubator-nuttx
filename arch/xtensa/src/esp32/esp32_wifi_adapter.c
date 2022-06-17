@@ -5008,32 +5008,7 @@ int esp_wifi_sta_start(void)
       ret = wifi_errno_trans(ret);
       goto errout_set_mode;
     }
-
-#ifndef CONFIG_WIFI_SOFTAP_SSID
-#define CONFIG_WIFI_SOFTAP_SSID "nuttxap"
-#endif
-#ifndef CONFIG_WIFI_SOFTAP_PASSWD
-#define CONFIG_WIFI_SOFTAP_PASSWD "12345678"
-#endif
-
-  wifi_config_t wifi_cfg = {
-        .ap.ssid = CONFIG_WIFI_SOFTAP_SSID,
-        .ap.password = CONFIG_WIFI_SOFTAP_PASSWD,
-        .ap.ssid_len = 0,
-        .ap.channel = 1,
-        .ap.authmode = WIFI_AUTH_WPA2_PSK,
-        .ap.ssid_hidden = false,
-        .ap.max_connection = 4,
-        .ap.beacon_interval = 100,
-  };
-
-  ret = esp_wifi_set_config(WIFI_IF_AP, &wifi_cfg);
-  if (ret)
-    {
-      wlerr("Failed to set Wi-Fi config data ret=%d\n", ret);
-      return wifi_errno_trans(ret);
-    }
-        
+  
   ret = esp_wifi_start();
   if (ret)
     {
@@ -6103,6 +6078,31 @@ int esp_wifi_softap_start(void)
       goto errout_set_mode;
     }
 
+#ifndef CONFIG_WIFI_SOFTAP_SSID
+#define CONFIG_WIFI_SOFTAP_SSID "drone"
+#endif
+#ifndef CONFIG_WIFI_SOFTAP_PASSWD
+#define CONFIG_WIFI_SOFTAP_PASSWD "12345678"
+#endif
+
+  wifi_config_t wifi_cfg = {
+        .ap.ssid = CONFIG_WIFI_SOFTAP_SSID,
+        .ap.password = CONFIG_WIFI_SOFTAP_PASSWD,
+        .ap.ssid_len = 0,
+        .ap.channel = 1,
+        .ap.authmode = WIFI_AUTH_WPA2_PSK,
+        .ap.ssid_hidden = false,
+        .ap.max_connection = 4,
+        .ap.beacon_interval = 100,
+  };
+
+  ret = esp_wifi_set_config(WIFI_IF_AP, &wifi_cfg);
+  if (ret)
+    {
+      wlerr("Failed to set Wi-Fi config data ret=%d\n", ret);
+      return wifi_errno_trans(ret);
+    }
+        
   ret = esp_wifi_start();
   if (ret)
     {
