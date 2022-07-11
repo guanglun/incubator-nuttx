@@ -85,7 +85,7 @@
 
 #define I2C_FILTER_CYC_NUM_DEF (7)
 
-#define I2C_CLK_FREQ_DEF (100 * 1000)
+#define I2C_CLK_FREQ_DEF (400 * 1000)
 
 #define I2C_INT_ERR_EN_BITS (I2C_ACK_ERR_INT_ENA | \
                              I2C_TIME_OUT_INT_ENA | \
@@ -608,7 +608,7 @@ static void esp32_i2c_init_clock(struct esp32_i2c_priv_s *priv,
 {
   if(clk_freq == 0)
     return;
-    
+
   uint32_t half_cycles = APB_CLK_FREQ / clk_freq / 2;
   uint32_t timeout_cycles = half_cycles * 20;
 
@@ -981,7 +981,7 @@ static int esp32_i2c_transfer(struct i2c_master_s *dev,
 
       /* Set the SCLK frequency for the current msg. */
 
-      esp32_i2c_init_clock(priv, msgs[i].frequency);
+      //esp32_i2c_init_clock(priv, msgs[i].frequency);
 
       /* Reset I2C trace logic */
 
