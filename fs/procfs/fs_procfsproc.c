@@ -746,7 +746,7 @@ static ssize_t proc_loadavg(FAR struct proc_file_s *procfile,
                             FAR struct tcb_s *tcb, FAR char *buffer,
                             size_t buflen, off_t offset)
 {
-  struct cpuload_s cpuload;
+  struct nx_cpuload_s cpuload;
   uint32_t intpart;
   uint32_t fracpart;
   size_t linesize;

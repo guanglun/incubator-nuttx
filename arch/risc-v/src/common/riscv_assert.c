@@ -142,7 +142,7 @@ static void riscv_dump_task(struct tcb_s *tcb, void *arg)
   uint32_t stack_used;
 #endif
 #ifdef CONFIG_SCHED_CPULOAD
-  struct cpuload_s cpuload;
+  struct nx_cpuload_s cpuload;
   uint32_t fracpart;
   uint32_t intpart;
   uint32_t tmp;

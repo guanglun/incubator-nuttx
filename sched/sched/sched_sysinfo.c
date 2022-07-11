@@ -47,7 +47,7 @@
 int sysinfo(FAR struct sysinfo *info)
 {
 #ifdef CONFIG_SCHED_CPULOAD
-  struct cpuload_s cpuload;
+  struct nx_cpuload_s cpuload;
 #endif
 #ifdef CONFIG_MM_PGALLOC
   struct pginfo_s pginfo;

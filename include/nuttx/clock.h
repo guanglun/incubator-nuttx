@@ -201,7 +201,7 @@
 /* This structure is used to report CPU usage for a particular thread */
 
 #ifdef CONFIG_SCHED_CPULOAD
-struct cpuload_s
+struct nx_cpuload_s
 {
   volatile uint32_t total;   /* Total number of clock ticks */
   volatile uint32_t active;  /* Number of ticks while this thread was active */
@@ -478,7 +478,7 @@ int clock_systime_timespec(FAR struct timespec *ts);
  ****************************************************************************/
 
 #ifdef CONFIG_SCHED_CPULOAD
-int clock_cpuload(int pid, FAR struct cpuload_s *cpuload);
+int clock_cpuload(int pid, FAR struct nx_cpuload_s *cpuload);
 #endif
 
 /****************************************************************************
