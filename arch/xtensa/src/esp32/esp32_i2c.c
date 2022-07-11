@@ -85,7 +85,7 @@
 
 #define I2C_FILTER_CYC_NUM_DEF (7)
 
-#define I2C_CLK_FREQ_DEF (400 * 1000)
+#define I2C_CLK_FREQ_DEF (300 * 1000)
 
 #define I2C_INT_ERR_EN_BITS (I2C_ACK_ERR_INT_ENA | \
                              I2C_TIME_OUT_INT_ENA | \
