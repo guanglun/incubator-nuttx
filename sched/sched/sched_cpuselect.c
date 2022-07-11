@@ -64,11 +64,27 @@
 int nxsched_select_cpu(cpu_set_t affinity)
 {
   // uint8_t minprio;
-  // int cpu;
-  // int i;
+  int cpu;
+  int i;
 
   // minprio = SCHED_PRIORITY_MAX;
-  // cpu     = IMPOSSIBLE_CPU;
+  cpu     = IMPOSSIBLE_CPU;
+
+  if((affinity & 0x03) == 0x03 || (affinity & 0x03) == 0)
+  {
+    cpu = 0;
+  }else{
+    for (i = 0; i < CONFIG_SMP_NCPUS; i++)
+    {
+      if ((affinity & (1 << i)) != 0)
+      {
+        cpu = i;
+      }
+    }
+  }
+
+  if(cpu == IMPOSSIBLE_CPU)
+    cpu = 0;
 
   // for (i = 0; i < CONFIG_SMP_NCPUS; i++)
   //   {
@@ -102,7 +118,7 @@ int nxsched_select_cpu(cpu_set_t affinity)
   //   }
 
   // DEBUGASSERT(cpu != IMPOSSIBLE_CPU);
-  return 0;
+  return cpu;
 }
 
 #endif /* CONFIG_SMP */
