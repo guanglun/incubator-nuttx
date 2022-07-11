@@ -606,6 +606,9 @@ static void esp32_i2c_sendstop(struct esp32_i2c_priv_s *priv)
 static void esp32_i2c_init_clock(struct esp32_i2c_priv_s *priv,
                                  uint32_t clk_freq)
 {
+  if(clk_freq == 0)
+    return;
+    
   uint32_t half_cycles = APB_CLK_FREQ / clk_freq / 2;
   uint32_t timeout_cycles = half_cycles * 20;
 
