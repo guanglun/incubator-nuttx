@@ -5009,6 +5009,24 @@ int esp_wifi_sta_start(void)
       goto errout_set_mode;
     }
 
+  wifi_config_t wifi_cfg = {
+        .ap.ssid = "nuttxap",
+        .ap.password = "12345678",
+        .ap.ssid_len = 0,
+        .ap.channel = 1,
+        .ap.authmode = WIFI_AUTH_OPEN,
+        .ap.ssid_hidden = false,
+        .ap.max_connection = 4,
+        .ap.beacon_interval = 100,
+  };
+
+  ret = esp_wifi_set_config(WIFI_IF_AP, &wifi_cfg);
+  if (ret)
+    {
+      wlerr("Failed to set Wi-Fi config data ret=%d\n", ret);
+      return wifi_errno_trans(ret);
+    }
+
   ret = esp_wifi_start();
   if (ret)
     {
@@ -6076,6 +6094,25 @@ int esp_wifi_softap_start(void)
       wlerr("Failed to set Wi-Fi mode=%d ret=%d\n", mode, ret);
       ret = wifi_errno_trans(ret);
       goto errout_set_mode;
+    }
+
+
+  wifi_config_t wifi_cfg = {
+        .ap.ssid = "nuttxap",
+        .ap.password = "12345678",
+        .ap.ssid_len = 0,
+        .ap.channel = 1,
+        .ap.authmode = WIFI_AUTH_OPEN,
+        .ap.ssid_hidden = false,
+        .ap.max_connection = 4,
+        .ap.beacon_interval = 100,
+  };
+
+  ret = esp_wifi_set_config(WIFI_IF_AP, &wifi_cfg);
+  if (ret)
+    {
+      wlerr("Failed to set Wi-Fi config data ret=%d\n", ret);
+      return wifi_errno_trans(ret);
     }
 
   ret = esp_wifi_start();
