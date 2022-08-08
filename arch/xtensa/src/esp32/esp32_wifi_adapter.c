@@ -6560,7 +6560,65 @@ int esp_wifi_softap_bitrate(struct iwreq *iwr, bool set)
 
 int esp_wifi_softap_txpower(struct iwreq *iwr, bool set)
 {
-  return esp_wifi_sta_txpower(iwr, set);
+  int ret;
+  int8_t power;
+  double power_dbm;
+
+  if (set)
+    {
+      if (iwr->u.txpower.flags == IW_TXPOW_RELATIVE)
+        {
+          power = (int8_t)iwr->u.txpower.value;
+        }
+      else
+        {
+          if (iwr->u.txpower.flags == IW_TXPOW_MWATT)
+            {
+              power_dbm = ceil(10 * log10(iwr->u.txpower.value));
+            }
+          else
+            {
+              power_dbm = iwr->u.txpower.value;
+            }
+
+          power = (int8_t)(power_dbm * 4);
+        }
+
+      /* The value set by this API will be mapped to the max_tx_power
+       * of the structure wifi_country_t variable. Param power unit is
+       * 0.25dBm, range is [8, 84] corresponding to 2dBm - 20dBm.
+       * Relationship between set value and actual value.
+       * As follows: {set value range, actual value} =
+       * {{[8,  19],8}, {[20, 27],20}, {[28, 33],28},
+       * {[34, 43],34}, {[44, 51],44}, {[52, 55],52},
+       * {[56, 59],56}, {[60, 65],60}, {[66, 71],66},
+       * {[72, 79],72}, {[80, 84],80}}.
+       */
+
+      if (power < 8 || power > 84)
+        {
+          wlerr("Failed to set transmit power =%d\n", power);
+          return -ENOSYS;
+        }
+
+      esp_wifi_set_max_tx_power(power);
+      return OK;
+    }
+  else
+    {
+      ret = esp_wifi_get_max_tx_power(&power);
+      if (ret)
+        {
+          wlerr("Failed to get transmit power ret=%d\n", ret);
+          return wifi_errno_trans(ret);
+        }
+
+      iwr->u.txpower.disabled = 0;
+      iwr->u.txpower.flags    = IW_TXPOW_DBM;
+      iwr->u.txpower.value    = power / 4;
+    }
+
+  return OK;
 }
 
 /****************************************************************************
@@ -6581,7 +6639,35 @@ int esp_wifi_softap_txpower(struct iwreq *iwr, bool set)
 
 int esp_wifi_softap_channel(struct iwreq *iwr, bool set)
 {
-  return esp_wifi_sta_channel(iwr, set);
+  int ret;
+  int k;
+  wifi_country_t country;
+  struct iw_range *range;
+
+  if (set)
+    {
+      return -ENOSYS;
+    }
+  else
+    {
+      ret = esp_wifi_get_country(&country);
+      if (ret)
+        {
+          wlerr("Failed to get country info ret=%d\n", ret);
+          return wifi_errno_trans(ret);
+        }
+
+      range = (struct iw_range *)iwr->u.data.pointer;
+      range->num_frequency = country.nchan;
+      for (k = 1; k <= range->num_frequency; k++)
+        {
+          range->freq[k - 1].i = k;
+          range->freq[k - 1].e = 0;
+          range->freq[k - 1].m = 2407 + 5 * k;
+        }
+    }
+
+  return OK;
 }
 
 /****************************************************************************
@@ -6602,8 +6688,53 @@ int esp_wifi_softap_channel(struct iwreq *iwr, bool set)
 
 int esp_wifi_softap_country(struct iwreq *iwr, bool set)
 {
-  return esp_wifi_sta_country(iwr, set);
+  int ret;
+  char *country_code;
+  wifi_country_t country;
+
+  if (set)
+    {
+      memset(&country, 0x00, sizeof(wifi_country_t));
+      country.schan  = 1;
+      country.policy = 0;
+
+      country_code = (char *)iwr->u.data.pointer;
+      if (strlen(country_code) != 2)
+        {
+          wlerr("Invalid input arguments\n");
+          return -EINVAL;
+        }
+
+      if (strncmp(country_code, "US", 3) == 0 ||
+          strncmp(country_code, "CA", 3) == 0)
+        {
+          country.nchan  = 11;
+        }
+      else if(strncmp(country_code, "JP", 3) == 0)
+        {
+          country.nchan  = 14;
+        }
+      else
+        {
+          country.nchan  = 13;
+        }
+
+      memcpy(country.cc, country_code, 2);
+      ret = esp_wifi_set_country(&country);
+      if (ret)
+        {
+          wlerr("Failed to  Configure country ret=%d\n", ret);
+          return wifi_errno_trans(ret);
+        }
+    }
+  else
+    {
+      return -ENOSYS;
+    }
+
+  return OK;
 }
+
 
 /****************************************************************************
  * Name: esp_wifi_softap_rssi
@@ -6656,3 +6787,4 @@ void esp_wifi_stop_callback(void)
       nxsig_sleep(1);
     }
 }
+
