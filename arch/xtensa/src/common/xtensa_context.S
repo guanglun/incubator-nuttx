@@ -123,6 +123,31 @@ _xtensa_context_save:
 	s32i	a10, sp, (4 * REG_A10)
 	s32i	a11, sp, (4 * REG_A11)
 
+	/* FPU save*/
+	rsr		a3, BR
+	s32i	a3, sp, (4 * REG_BR)
+	rur.FCR	a3
+	s32i	a3, sp, (4 * REG_FCR)
+	rur.FSR	a3
+	s32i	a3, sp, (4 * REG_FSR)
+
+	ssi	f0,sp, (4 * REG_F0)
+	ssi	f1,sp, (4 * REG_F1)
+	ssi	f2,sp, (4 * REG_F2)
+	ssi	f3,sp, (4 * REG_F3)
+	ssi	f4,sp, (4 * REG_F4)
+	ssi	f5,sp, (4 * REG_F5)
+	ssi	f6,sp, (4 * REG_F6)
+	ssi	f7,sp, (4 * REG_F7)
+	ssi	f8,sp, (4 * REG_F8)
+	ssi	f9,sp, (4 * REG_F9)
+	ssi	f10,sp, (4 * REG_F10)
+	ssi	f11,sp, (4 * REG_F11)
+	ssi	f12,sp, (4 * REG_F12)
+	ssi	f13,sp, (4 * REG_F13)
+	ssi	f14,sp, (4 * REG_F14)
+	ssi	f15,sp, (4 * REG_F15)
+
 	/* Call0 ABI callee-saved regs a12-15 do not need to be saved here */
 
 #ifndef __XTENSA_CALL0_ABI__
@@ -272,6 +297,31 @@ _xtensa_context_restore:
 	wsr   a3, SCOMPARE1
 #endif
 
+	/* FPU restore*/
+	l32i	a3, a2, (4 * REG_BR)
+	wsr		a3, BR
+	l32i	a3, a2, (4 * REG_FCR)
+	wur.FCR	a3
+	l32i	a3, a2, (4 * REG_FSR)
+	wur.FSR	a3
+
+	lsi	f0, a2, (4 * REG_F0)
+	lsi	f1, a2, (4 * REG_F1)
+	lsi	f2, a2, (4 * REG_F2)
+	lsi	f3, a2, (4 * REG_F3)
+	lsi	f4, a2, (4 * REG_F4)
+	lsi	f5, a2, (4 * REG_F5)
+	lsi	f6, a2, (4 * REG_F6)
+	lsi	f7, a2, (4 * REG_F7)
+	lsi	f8, a2, (4 * REG_F8)
+	lsi	f9, a2, (4 * REG_F9)
+	lsi	f10, a2, (4 * REG_F10)
+	lsi	f11, a2, (4 * REG_F11)
+	lsi	f12, a2, (4 * REG_F12)
+	lsi	f13, a2, (4 * REG_F13)
+	lsi	f14, a2, (4 * REG_F14)
+	lsi	f15, a2, (4 * REG_F15)
+	
 	l32i	a3, a2, (4 * REG_SAR)
 	wsr		a3, SAR
 

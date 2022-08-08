@@ -54,6 +54,16 @@
  *
  ****************************************************************************/
 
+static inline void xtensa_set_cpenable(uint32_t cpenable)
+{
+  __asm__ __volatile__
+  (
+    "\twsr %0, CPENABLE\n"
+    "\trsync\n"
+    : : "r"(cpenable)
+  );
+}
+
 void up_initial_state(struct tcb_s *tcb)
 {
   struct xcptcontext *xcp = &tcb->xcp;
@@ -108,4 +118,6 @@ void up_initial_state(struct tcb_s *tcb)
 
   xcp->regs[REG_PS]   = PS_UM | PS_WOE | PS_CALLINC(1);
 #endif
+
+  xtensa_set_cpenable(0x0001);
 }

@@ -561,6 +561,8 @@ static uint32_t esp32_spi_setfrequency(struct spi_dev_s *dev,
   struct esp32_spi_priv_s *priv = (struct esp32_spi_priv_s *)dev;
   const uint32_t duty_cycle = 128;
 
+  if(frequency == 0)
+    frequency = SPI_FREQ_DEFAULT;
   if (priv->frequency == frequency)
     {
       /* We are already at this frequency. Return the actual. */
