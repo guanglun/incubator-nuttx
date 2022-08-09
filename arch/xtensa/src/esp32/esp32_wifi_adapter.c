@@ -5009,17 +5009,6 @@ int esp_wifi_sta_start(void)
       goto errout_set_mode;
     }
 
-  wifi_config_t wifi_cfg = {
-        .ap.ssid = "nuttxap",
-        .ap.password = "12345678",
-        .ap.ssid_len = 0,
-        .ap.channel = 1,
-        .ap.authmode = WIFI_AUTH_WPA2_PSK,
-        .ap.ssid_hidden = false,
-        .ap.max_connection = 4,
-        .ap.beacon_interval = 100,
-  };
-
   ret = esp_wifi_set_config(WIFI_IF_AP, &wifi_cfg);
   if (ret)
     {
@@ -6070,6 +6059,7 @@ int esp_wifi_softap_start(void)
 {
   int ret;
   wifi_mode_t mode;
+  uint8_t eth_mac[6];
 
   esp_wifi_lock(true);
 
@@ -6096,17 +6086,32 @@ int esp_wifi_softap_start(void)
       goto errout_set_mode;
     }
 
+  ret = esp_wifi_softap_read_mac(eth_mac);
+  if (ret < 0)
+    {
+      nerr("ERROR: Failed to read MAC address\n");
+      return ret;
+    }
+
+  wlinfo("Wi-Fi softAP MAC: %02X:%02X:%02X:%02X:%02X:%02X\n",
+        eth_mac[0], eth_mac[1], eth_mac[2],
+        eth_mac[3], eth_mac[4], eth_mac[5]);
+
+
 
   wifi_config_t wifi_cfg = {
-        .ap.ssid = "nuttxap",
+        .ap.ssid = "GLDRONE",
         .ap.password = "12345678",
         .ap.ssid_len = 0,
         .ap.channel = 1,
-        .ap.authmode = WIFI_AUTH_WPA2_PSK,
+        .ap.authmode = WIFI_AUTH_WPA_WPA2_PSK,
         .ap.ssid_hidden = false,
         .ap.max_connection = 4,
         .ap.beacon_interval = 100,
   };
+
+  sprintf((char *)wifi_cfg.ap.ssid,"GLDRONE_%02X%02X%02X",
+        eth_mac[3], eth_mac[4], eth_mac[5]);
 
   ret = esp_wifi_set_config(WIFI_IF_AP, &wifi_cfg);
   if (ret)
